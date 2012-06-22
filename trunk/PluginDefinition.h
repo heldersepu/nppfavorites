@@ -1,6 +1,3 @@
-//this file is part of notepad++
-//Copyright (C)2003 Don HO <donho@altern.org>
-//
 //This program is free software; you can redistribute it and/or
 //modify it under the terms of the GNU General Public License
 //as published by the Free Software Foundation; either
@@ -23,68 +20,32 @@
 //
 #include "PluginInterface.h"
 
-//-------------------------------------//
-//-- STEP 1. DEFINE YOUR PLUGIN NAME --//
-//-------------------------------------//
-// Here define your plugin name
-//
 const TCHAR NPP_PLUGIN_NAME[] = TEXT("NppFavorites");
-
-//-----------------------------------------------//
-//-- STEP 2. DEFINE YOUR PLUGIN COMMAND NUMBER --//
-//-----------------------------------------------//
-//
-// Here define the number of your plugin commands
-//
 const int nbFunc = 16;
 
-
-//
-// Initialization of your plugin data
-// It will be called while plugin loading
-//
 void pluginInit(HANDLE hModule);
-
-//
-// Cleaning of your plugin
-// It will be called while plugin unloading
-//
 void pluginCleanUp();
-
-//
-//Initialization of your plugin commands
-//
 void commandMenuInit();
-
-//
-//Clean up your plugin commands allocation (if any)
-//
 void commandMenuCleanUp();
-
-//
-// Function which sets your command 
-//
 bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey *sk = NULL, bool check0nInit = false);
 
 
-//
-// Your plugin command functions
-//
-void hello();
-void helloFX();
-void WhatIsNpp();
-void insertDateTime(bool format);
-void insertShortDateTime();
-void insertLongDateTime();
-void insertCurrentPath(int which);
-void insertCurrentFullPath();
-void insertCurrentFileName();
-void insertCurrentDirectory();
-void insertHtmlCloseTag();
-void getFileNamesDemo();
-void getSessionFileNamesDemo();
-void saveCurrentSessionDemo();
-void DockableDlgDemo();
+void OpenFile0();
+void OpenFile1();
+void OpenFile2();
+void OpenFile3();
+void OpenFile4();
+void OpenFile5();
+void OpenFile6();
+void OpenFile7();
+void OpenFile8();
+void OpenFile9();
+void OpenFile10();
+void OpenFile11();
+void OpenFile12();
+void OpenFile13();
+void OpenFile(int FileNum);
+void ManageFavorites();
 
 
 #endif //PLUGINDEFINITION_H
