@@ -20,7 +20,10 @@
 //
 #include "PluginInterface.h"
 
+ 
 const TCHAR NPP_PLUGIN_NAME[] = TEXT("NppFavorites");
+const TCHAR sectionName[] = TEXT("NppFavorites");
+const TCHAR configFileName[] = TEXT("NppFavorites.ini");
 const int nbFunc = 8;
 
 void pluginInit(HANDLE hModule);
@@ -30,7 +33,6 @@ void configFileInit();
 void commandMenuCleanUp();
 bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey *sk = NULL, bool check0nInit = false);
 
-
 void OpenFile0();
 void OpenFile1();
 void OpenFile2();
@@ -38,7 +40,7 @@ void OpenFile3();
 void OpenFile4();
 void OpenFile5();
 
-void OpenFile(int FileNum);
+void OpenFavFile(TCHAR* keyName);
 void ManageFavorites();
 
 
