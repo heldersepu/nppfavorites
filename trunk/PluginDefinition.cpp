@@ -14,10 +14,9 @@
 
 #include "PluginDefinition.h"
 #include "menuCmdID.h"
-#include "GoToLineDlg.h"
+#include "Shlwapi.h"
 
 
-DemoDlg _goToLine;
 #ifdef UNICODE 
 	#define generic_itoa _itow
 #else
@@ -40,8 +39,7 @@ bool doCloseTag = false;
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
-	// Initialize dockable demo dialog
-	_goToLine.init((HINSTANCE)hModule, NULL);		
+	
 }
 
 //

@@ -184,25 +184,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DockingFeature\GoToLineDlg.cpp" />
     <ClCompile Include="NppFavorites.cpp" />
     <ClCompile Include="PluginDefinition.cpp" />
     <ClCompile Include="DockingFeature\StaticDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DockingFeature\DockingDlgInterface.h" />
-    <ClInclude Include="DockingFeature\GoToLineDlg.h" />
     <ClInclude Include="menuCmdID.h" />
     <ClInclude Include="Notepad_plus_msgs.h" />
     <ClInclude Include="PluginDefinition.h" />
     <ClInclude Include="PluginInterface.h" />
-    <ClInclude Include="DockingFeature\resource.h" />
     <ClInclude Include="Scintilla.h" />
     <ClInclude Include="DockingFeature\StaticDialog.h" />
     <ClInclude Include="DockingFeature\Window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="DockingFeature\goLine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

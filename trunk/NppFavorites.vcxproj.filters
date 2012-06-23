@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DockingFeature\GoToLineDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NppFavorites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -32,9 +29,6 @@
     <ClInclude Include="DockingFeature\DockingDlgInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DockingFeature\GoToLineDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="menuCmdID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,9 +41,6 @@
     <ClInclude Include="PluginInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DockingFeature\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scintilla.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,10 +50,5 @@
     <ClInclude Include="DockingFeature\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="DockingFeature\goLine.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
