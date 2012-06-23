@@ -14,21 +14,10 @@
 
 #include "PluginDefinition.h"
 #include "menuCmdID.h"
-
-//
-// put the headers you need here
-//
-#include <stdlib.h>
-#include <time.h>
-#include <shlwapi.h>
 #include "GoToLineDlg.h"
 
-const TCHAR sectionName[] = TEXT("NppFavorites");
-const TCHAR keyName[] = TEXT("favFile");
-const TCHAR configFileName[] = TEXT("NppFavorites.ini");
 
 DemoDlg _goToLine;
-
 #ifdef UNICODE 
 	#define generic_itoa _itow
 #else
@@ -144,23 +133,26 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
     return true;
 }
 
-void OpenFile0() { OpenFile(0); }
-void OpenFile1() { OpenFile(1); }
-void OpenFile2() { OpenFile(2); }
-void OpenFile3() { OpenFile(3); }
-void OpenFile4() { OpenFile(4); }
-void OpenFile5() { OpenFile(5); }
+void OpenFile0() { OpenFavFile(TEXT("favFile0")); }
+void OpenFile1() { OpenFavFile(TEXT("favFile1")); }
+void OpenFile2() { OpenFavFile(TEXT("favFile2")); }
+void OpenFile3() { OpenFavFile(TEXT("favFile3")); }
+void OpenFile4() { OpenFavFile(TEXT("favFile4")); }
+void OpenFile5() { OpenFavFile(TEXT("favFile5")); }
 
-void OpenFile(int FileNum)
+void OpenFavFile(TCHAR* keyName)
 {
-	TCHAR* FileName;	
-	::GetPrivateProfileString(sectionName, keyName + (TCHAR) FileNum, TEXT(""), FileName, MAX_PATH, iniFilePath);	
-	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
+	try {
+		TCHAR FileName[MAX_PATH];
+		::GetPrivateProfileString(sectionName, keyName, TEXT(""), FileName, MAX_PATH, iniFilePath);	
+		::SendMessage(nppData._nppHandle, NPPM_DOOPEN, 0, (LPARAM)FileName);
+	} catch (...) {}
 }
+
 
 //Open the config file
 void ManageFavorites()
 {
-	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
+	::SendMessage(nppData._nppHandle, NPPM_DOOPEN, 0, (LPARAM)iniFilePath);
 }
 
