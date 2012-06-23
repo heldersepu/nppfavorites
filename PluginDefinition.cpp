@@ -23,8 +23,8 @@
 #include <shlwapi.h>
 #include "GoToLineDlg.h"
 
-const TCHAR sectionName[] = TEXT("Insert Extesion");
-const TCHAR keyName[] = TEXT("doCloseTag");
+const TCHAR sectionName[] = TEXT("NppFavorites");
+const TCHAR keyName[] = TEXT("favFile");
 const TCHAR configFileName[] = TEXT("NppFavorites.ini");
 
 DemoDlg _goToLine;
@@ -43,7 +43,7 @@ FuncItem funcItem[nbFunc];
 NppData nppData;
 
 
-TCHAR iniFilePath[MAX_PATH];
+TCHAR iniFilePath[MAX_PATH] = TEXT("::");
 bool doCloseTag = false;
 
 //
@@ -52,7 +52,7 @@ bool doCloseTag = false;
 void pluginInit(HANDLE hModule)
 {
 	// Initialize dockable demo dialog
-	_goToLine.init((HINSTANCE)hModule, NULL);
+	_goToLine.init((HINSTANCE)hModule, NULL);		
 }
 
 //
@@ -60,7 +60,7 @@ void pluginInit(HANDLE hModule)
 //
 void pluginCleanUp()
 {
-	::WritePrivateProfileString(sectionName, keyName, doCloseTag?TEXT("1"):TEXT("0"), iniFilePath);
+	
 }
 
 //
@@ -68,37 +68,21 @@ void pluginCleanUp()
 // You should fill your plugins commands here
 void commandMenuInit()
 {
-
-	// get path of plugin configuration
-	::SendMessage(nppData._nppHandle, NPPM_GETPLUGINSCONFIGDIR, MAX_PATH, (LPARAM)iniFilePath);
-
-	// if config path doesn't exist, we create it
-	if (PathFileExists(iniFilePath) == FALSE)
-	{
-		::CreateDirectory(iniFilePath, NULL);
-	}
-
-	// make your plugin config file full file path name
-	PathAppend(iniFilePath, configFileName);
-
-	// get the parameter value from plugin config
-	doCloseTag = (::GetPrivateProfileInt(sectionName, keyName, 0, iniFilePath) != 0);
-
-	setCommand(0, TEXT("Hello 0"), OpenFile0, NULL, false);
-	setCommand(1, TEXT("Hello 1"), OpenFile1, NULL, false);
-	setCommand(2, TEXT("Hello 2"), OpenFile2, NULL, false);
-	setCommand(3, TEXT("Hello 3"), OpenFile3, NULL, false);
-	setCommand(4, TEXT("Hello 4"), OpenFile4, NULL, false);
-	setCommand(5, TEXT("Hello 5"), OpenFile5, NULL, false);
-	setCommand(6, TEXT("Hello 6"), OpenFile6, NULL, false);
-	setCommand(7, TEXT("Hello 7"), OpenFile7, NULL, false);
-	setCommand(8, TEXT("Hello 8"), OpenFile8, NULL, false);
-	setCommand(9, TEXT("Hello 9"), OpenFile9, NULL, false);
-	setCommand(10, TEXT("Hello 10"), OpenFile10, NULL, false);
-	setCommand(11, TEXT("Hello 11"), OpenFile11, NULL, false);
-	setCommand(12, TEXT("Hello 12"), OpenFile12, NULL, false);
-	setCommand(13, TEXT("Hello 13"), OpenFile13, NULL, false);
-
+	configFileInit();
+	TCHAR FileName[MAX_PATH];	
+	::GetPrivateProfileString(sectionName, TEXT("favFile0"), TEXT(""), FileName, MAX_PATH, iniFilePath);
+	setCommand(0, FileName, OpenFile0, NULL, false);
+	::GetPrivateProfileString(sectionName, TEXT("favFile1"), TEXT(""), FileName, MAX_PATH, iniFilePath);
+	setCommand(1, FileName, OpenFile1, NULL, false);
+	::GetPrivateProfileString(sectionName, TEXT("favFile2"), TEXT(""), FileName, MAX_PATH, iniFilePath);
+	setCommand(2, FileName, OpenFile2, NULL, false);
+	::GetPrivateProfileString(sectionName, TEXT("favFile3"), TEXT(""), FileName, MAX_PATH, iniFilePath);
+	setCommand(3, FileName, OpenFile3, NULL, false);
+	::GetPrivateProfileString(sectionName, TEXT("favFile4"), TEXT(""), FileName, MAX_PATH, iniFilePath);
+	setCommand(4, FileName, OpenFile4, NULL, false);
+	::GetPrivateProfileString(sectionName, TEXT("favFile5"), TEXT(""), FileName, MAX_PATH, iniFilePath);
+	setCommand(5, FileName, OpenFile5, NULL, false);
+																			   
 	setCommand(nbFunc-2, TEXT("---"), NULL, NULL, false);
 	// Shortcut : // bind to the shortcut Alt-F
 	ShortcutKey *shKey = new ShortcutKey;
@@ -106,9 +90,30 @@ void commandMenuInit()
 	shKey->_isCtrl = false;
 	shKey->_isShift = false;
 	shKey->_key = 0x46; //VK_F
-	setCommand(nbFunc-1, TEXT("Manage Favorites"), ManageFavorites, shKey, false);
+	setCommand(nbFunc-1, TEXT("Manage Favorites"), ManageFavorites, shKey, false);	
 }
 
+void configFileInit()
+{
+	// get path of plugin configuration
+	::SendMessage(nppData._nppHandle, NPPM_GETPLUGINSCONFIGDIR, MAX_PATH, (LPARAM)iniFilePath);
+	// if config path doesn't exist, we create it
+	if (PathFileExists(iniFilePath) == FALSE)
+	{
+		::CreateDirectory(iniFilePath, NULL);
+	} 	
+	// make your plugin config file full file path name
+	PathAppend(iniFilePath, configFileName);	
+	if (PathFileExists(configFileName) == FALSE)
+	{
+		::WritePrivateProfileString(sectionName, TEXT("favFile0"), TEXT("C:\\Windows\\System32\\drivers\\etc\\hosts"), iniFilePath);
+		::WritePrivateProfileString(sectionName, TEXT("favFile1"), TEXT("C:\\xampp\\php\\php.ini"), iniFilePath);
+		::WritePrivateProfileString(sectionName, TEXT("favFile2"), TEXT(""), iniFilePath);
+		::WritePrivateProfileString(sectionName, TEXT("favFile3"), TEXT(""), iniFilePath);
+		::WritePrivateProfileString(sectionName, TEXT("favFile4"), TEXT(""), iniFilePath);
+		::WritePrivateProfileString(sectionName, TEXT("favFile5"), TEXT(""), iniFilePath);	
+	}
+}
 
 //
 // Here you can do the clean up (especially for the shortcut)
@@ -145,23 +150,17 @@ void OpenFile2() { OpenFile(2); }
 void OpenFile3() { OpenFile(3); }
 void OpenFile4() { OpenFile(4); }
 void OpenFile5() { OpenFile(5); }
-void OpenFile6() { OpenFile(6); }
-void OpenFile7() { OpenFile(7); }
-void OpenFile8() { OpenFile(8); }
-void OpenFile9() { OpenFile(9); }
-void OpenFile10() { OpenFile(10); }
-void OpenFile11() { OpenFile(11); }
-void OpenFile12() { OpenFile(12); }
-void OpenFile13() { OpenFile(13); }
 
 void OpenFile(int FileNum)
 {
-	_goToLine.setParent(nppData._nppHandle);	
+	TCHAR* FileName;	
+	::GetPrivateProfileString(sectionName, keyName + (TCHAR) FileNum, TEXT(""), FileName, MAX_PATH, iniFilePath);	
+	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
 }
 
 //Open the config file
 void ManageFavorites()
 {
-	_goToLine.setParent(nppData._nppHandle);	
+	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
 }
 
