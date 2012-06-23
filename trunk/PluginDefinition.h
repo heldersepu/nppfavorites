@@ -21,11 +21,12 @@
 #include "PluginInterface.h"
 
 const TCHAR NPP_PLUGIN_NAME[] = TEXT("NppFavorites");
-const int nbFunc = 16;
+const int nbFunc = 8;
 
 void pluginInit(HANDLE hModule);
 void pluginCleanUp();
 void commandMenuInit();
+void configFileInit();
 void commandMenuCleanUp();
 bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey *sk = NULL, bool check0nInit = false);
 
@@ -36,14 +37,7 @@ void OpenFile2();
 void OpenFile3();
 void OpenFile4();
 void OpenFile5();
-void OpenFile6();
-void OpenFile7();
-void OpenFile8();
-void OpenFile9();
-void OpenFile10();
-void OpenFile11();
-void OpenFile12();
-void OpenFile13();
+
 void OpenFile(int FileNum);
 void ManageFavorites();
 
