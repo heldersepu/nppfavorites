@@ -50,6 +50,16 @@ void pluginCleanUp()
 	
 }
 
+ShortcutKey* shKey(UCHAR key)
+{
+	ShortcutKey *my_shKey = new ShortcutKey;
+	my_shKey->_isAlt = true;
+	my_shKey->_isCtrl = true;
+	my_shKey->_isShift = false;
+	my_shKey->_key = key; //VK_F
+	return my_shKey;
+}
+
 //
 // Initialization of your plugin commands
 // You should fill your plugins commands here
@@ -58,26 +68,20 @@ void commandMenuInit()
 	configFileInit();
 	TCHAR FileName[MAX_PATH];	
 	::GetPrivateProfileString(sectionName, TEXT("favFile0"), TEXT(""), FileName, MAX_PATH, iniFilePath);
-	setCommand(0, FileName, OpenFile0, NULL, false);
+	setCommand(0, FileName, OpenFile0, shKey(0x31), false);
 	::GetPrivateProfileString(sectionName, TEXT("favFile1"), TEXT(""), FileName, MAX_PATH, iniFilePath);
-	setCommand(1, FileName, OpenFile1, NULL, false);
+	setCommand(1, FileName, OpenFile1, shKey(0x32), false);
 	::GetPrivateProfileString(sectionName, TEXT("favFile2"), TEXT(""), FileName, MAX_PATH, iniFilePath);
-	setCommand(2, FileName, OpenFile2, NULL, false);
+	setCommand(2, FileName, OpenFile2, shKey(0x33), false);
 	::GetPrivateProfileString(sectionName, TEXT("favFile3"), TEXT(""), FileName, MAX_PATH, iniFilePath);
-	setCommand(3, FileName, OpenFile3, NULL, false);
+	setCommand(3, FileName, OpenFile3, shKey(0x34), false);
 	::GetPrivateProfileString(sectionName, TEXT("favFile4"), TEXT(""), FileName, MAX_PATH, iniFilePath);
-	setCommand(4, FileName, OpenFile4, NULL, false);
+	setCommand(4, FileName, OpenFile4, shKey(0x35), false);
 	::GetPrivateProfileString(sectionName, TEXT("favFile5"), TEXT(""), FileName, MAX_PATH, iniFilePath);
-	setCommand(5, FileName, OpenFile5, NULL, false);
+	setCommand(5, FileName, OpenFile5, shKey(0x36), false);
 																			   
 	setCommand(nbFunc-2, TEXT("---"), NULL, NULL, false);
-	// Shortcut : // bind to the shortcut Alt-F
-	ShortcutKey *shKey = new ShortcutKey;
-	shKey->_isAlt = true;
-	shKey->_isCtrl = false;
-	shKey->_isShift = false;
-	shKey->_key = 0x46; //VK_F
-	setCommand(nbFunc-1, TEXT("Manage Favorites"), ManageFavorites, shKey, false);	
+	setCommand(nbFunc-1, TEXT("Manage Favorites"), ManageFavorites, shKey(0x42), false);	
 }
 
 void configFileInit()
@@ -91,7 +95,7 @@ void configFileInit()
 	} 	
 	// make your plugin config file full file path name
 	PathAppend(iniFilePath, configFileName);	
-	if (PathFileExists(configFileName) == FALSE)
+	if (PathFileExists(iniFilePath) == FALSE)
 	{
 		::WritePrivateProfileString(sectionName, TEXT("favFile0"), TEXT("C:\\Windows\\System32\\drivers\\etc\\hosts"), iniFilePath);
 		::WritePrivateProfileString(sectionName, TEXT("favFile1"), TEXT("C:\\xampp\\php\\php.ini"), iniFilePath);
@@ -150,7 +154,7 @@ void OpenFavFile(TCHAR* keyName)
 
 //Open the config file
 void ManageFavorites()
-{
+{	
 	::SendMessage(nppData._nppHandle, NPPM_DOOPEN, 0, (LPARAM)iniFilePath);
 }
 
