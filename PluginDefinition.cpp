@@ -127,7 +127,7 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
     if (!pFunc)
         return false;
 
-    lstrcpy(funcItem[index]._itemName, cmdName);
+    lstrcpyn(funcItem[index]._itemName, cmdName, 50);
     funcItem[index]._pFunc = pFunc;
     funcItem[index]._init2Check = check0nInit;
     funcItem[index]._pShKey = sk;
