@@ -1,3 +1,12 @@
 *.sdf
 *.suo
 *.user
+*.pdb
+*.lib
+*.exp
+*.opendsf
+ANSI Debug/
+ipch/
+Release/
+Unicode Debug/
+Unicode Realeas/
