@@ -121,13 +121,27 @@ void commandMenuCleanUp()
 //
 bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey *sk, bool check0nInit) 
 {
-    if (index >= nbFunc)
-        return false;
+    if (index >= nbFunc) return false;
+    if (!pFunc) return false;
 
-    if (!pFunc)
-        return false;
-
-    lstrcpyn(funcItem[index]._itemName, cmdName, 50);
+    const int MAX_LEN_MENU = 50;
+    if (lstrlen(cmdName) > MAX_LEN_MENU) {        
+        const int SNIP = (MAX_LEN_MENU / 2) - 2;
+		const int GAP = lstrlen(cmdName) - SNIP;
+		TCHAR smallName[MAX_LEN_MENU];
+		for (int j = 0; j < MAX_LEN_MENU; j++ ) 
+			smallName[j] = 46;
+		int i = 0;  
+		for (i = 0; i < SNIP; i++ ) 
+			smallName[i] = cmdName[i];
+		i += 3;
+		for (int j = 0; j < SNIP; j++ ) 
+			smallName[i + j] = cmdName[GAP + j];
+        lstrcpyn(funcItem[index]._itemName, smallName, MAX_LEN_MENU);
+    }
+    else {
+        lstrcpy(funcItem[index]._itemName, cmdName);
+    }
     funcItem[index]._pFunc = pFunc;
     funcItem[index]._init2Check = check0nInit;
     funcItem[index]._pShKey = sk;
