@@ -5,6 +5,7 @@
 *.lib
 *.exp
 *.opendsf
+*.opensdf
 ANSI Debug/
 ipch/
 Release/
