@@ -1,54 +1,56 @@
-version: 1.0.0.{build}
-image: Visual Studio 2015
+version: 1.0.0.1.{build}
+image: Visual Studio 2017
 
 
 environment:
   matrix:
-    - PlatformToolset: v120_xp
-    - PlatformToolset: v140_xp 
+    - PlatformToolset: v140_xp
+    - PlatformToolset: v141_xp 
 
 platform:
-    #- x64
-    - Win32
+    - x64
+    - x86
 
 configuration:
-    - Unicode Debug
-    - Unicode Release
+    - Release
+    - Debug
 
 
 install:
     - if "%platform%"=="x64" set archi=amd64
-    - if "%platform%"=="Win32" set archi=x86
-    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %archi%
+    - if "%platform%"=="x64" set platform_input=x64
 
-build:
-    parallel: true                  # enable MSBuild parallel builds
-    verbosity: minimal
+    - if "%platform%"=="x86" set archi=x86
+    - if "%platform%"=="x86" set platform_input=x86
+
+    - if "%PlatformToolset%"=="v140_xp" call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %archi%
+    - if "%PlatformToolset%"=="v141_xp" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %archi%
+
 
 build_script:
     - cd "%APPVEYOR_BUILD_FOLDER%"
-    - msbuild NppFavorites.sln /m /p:configuration="%configuration%" /p:platform="%platform%" /p:PlatformToolset="%PlatformToolset%"
+    - msbuild NppFavorites.sln /m /p:configuration="%configuration%" /p:platform="%platform_input%" /p:PlatformToolset="%PlatformToolset%"
 
 after_build:
     - cd "%APPVEYOR_BUILD_FOLDER%"
     - ps: >-
 
-        if ($env:PLATFORM -eq "x64") {
-            #Push-AppveyorArtifact "bin\$($env:CONFIGURATION)_$($env:PLATFORM)\NppFavorites.dll" -FileName NppFavorites.dll
+        if ($env:PLATFORM_INPUT -eq "x64" -and $env:CONFIGURATION -eq "Release") {
+           Push-AppveyorArtifact "..\bin64\NppFavorites.dll" -FileName NppFavorites.dll
         }
 
-        if ($env:PLATFORM -eq "Win32" ) {
-            #Push-AppveyorArtifact "bin\$($env:CONFIGURATION)_$($env:PLATFORM)\NppFavorites.dll" -FileName NppFavorites.dll
+        if ($env:PLATFORM_INPUT -eq "x86" -and $env:CONFIGURATION -eq "Release") {
+            Push-AppveyorArtifact "..\bin\NppFavorites.dll" -FileName NppFavorites.dll
         }
 
-        if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release" -and $env:PLATFORMTOOLSET -eq "v120_xp") {
-            if($env:PLATFORM -eq "x64"){
+        if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release" -and $env:PLATFORM_INPUTTOOLSET -eq "v140_xp") {
+            if($env:PLATFORM_INPUT -eq "x64"){
             $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_x64.zip"
-            7z a $ZipFileName bin\$env:CONFIGURATION_$env:PLATFORM\NppFavorites.dll
+            7z a $ZipFileName ..\bin64\NppFavorites.dll
             }
-            if($env:PLATFORM -eq "Win32"){
+            if($env:PLATFORM_INPUT -eq "x86"){
             $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_x86.zip"
-            7z a $ZipFileName bin\$env:CONFIGURATION_$env:PLATFORM\NppFavorites.dll
+            7z a $ZipFileName ..\bin\NppFavorites.dll
             }
         }
 
@@ -66,5 +68,5 @@ deploy:
     force_update: true
     on:
         appveyor_repo_tag: true
-        PlatformToolset: v120_xp
+        PlatformToolset: v140_xp
         configuration: Release

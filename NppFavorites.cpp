@@ -25,7 +25,7 @@ extern bool doCloseTag;
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  reasonForCall, 
-                       LPVOID lpReserved )
+                       LPVOID /*lpReserved*/ )
 {
     switch (reasonForCall)
     {
@@ -88,7 +88,6 @@ extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
 					int beginPos = currentPos - (sizeof(buf) - 1);
 					int startPos = (beginPos > 0)?beginPos:0;
 					int size = currentPos - startPos;
-					int insertStringSize = 2;
 					char insertString[516] = "</";
 
 					if (size >= 3) 
@@ -102,7 +101,7 @@ extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
 
 							const char *pBegin = &buf[0];
 							const char *pCur = &buf[size - 2];
-							int  insertStringSize = 2;
+							int insertStringSize = 2;
 
 							for (; pCur > pBegin && *pCur != '<' && *pCur != '>' ;)
 								pCur--;
@@ -144,7 +143,7 @@ extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
 // Please let me know if you need to access to some messages :
 // http://sourceforge.net/forum/forum.php?forum_id=482781
 //
-extern "C" __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam, LPARAM lParam)
+extern "C" __declspec(dllexport) LRESULT messageProc(UINT /*Message*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {/*
 	if (Message == WM_MOVE)
 	{

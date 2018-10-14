@@ -37,7 +37,7 @@ bool doCloseTag = false;
 //
 // Initialize your plugin data here
 // It will be called while plugin loading   
-void pluginInit(HANDLE hModule)
+void pluginInit(HANDLE /*hModule*/)
 {
 	
 }
