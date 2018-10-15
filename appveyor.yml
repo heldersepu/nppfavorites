@@ -35,23 +35,13 @@ after_build:
     - cd "%APPVEYOR_BUILD_FOLDER%"
     - ps: >-
 
-        if ($env:PLATFORM_INPUT -eq "x64" -and $env:CONFIGURATION -eq "Release") {
-           Push-AppveyorArtifact "bin64\NppFavorites.dll" -FileName NppFavorites.dll
-        }
+        if ($env:CONFIGURATION -eq "Release") {
+          Push-AppveyorArtifact "bin$($env:APPVEYOR_REPO_TAG_NAME)\NppFavorites.dll" -FileName NppFavorites.dll          
 
-        if ($env:PLATFORM_INPUT -eq "x86" -and $env:CONFIGURATION -eq "Release") {
-            Push-AppveyorArtifact "bin\NppFavorites.dll" -FileName NppFavorites.dll
-        }
-
-        if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release" -and $env:PLATFORM_INPUTTOOLSET -eq "v140_xp") {
-            if($env:PLATFORM_INPUT -eq "x64"){
-                $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_x64.zip"
-                7z a $ZipFileName .\bin64\NppFavorites.dll
-            }
-            if($env:PLATFORM_INPUT -eq "x86"){
-                $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_x86.zip"
-                7z a $ZipFileName .\bin\NppFavorites.dll
-            }
+          if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:PLATFORM_INPUTTOOLSET -eq "v140_xp") {
+            $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_$($env:APPVEYOR_REPO_TAG_NAME).zip"
+            7z a $ZipFileName ".\bin$($env:APPVEYOR_REPO_TAG_NAME)\NppFavorites.dll"
+          }
         }
 
 artifacts:
