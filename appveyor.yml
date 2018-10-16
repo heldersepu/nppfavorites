@@ -38,7 +38,7 @@ after_build:
         if ($env:CONFIGURATION -eq "Release") {
           Push-AppveyorArtifact "bin$($env:PLATFORM_INPUT)\NppFavorites.dll" -FileName NppFavorites.dll          
 
-          if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:PLATFORM_INPUTTOOLSET -eq "v140_xp") {
+          if ($env:APPVEYOR_REPO_TAG -eq "true" -and $env:PLATFORM_INPUTTOOLSET -eq "v140_xp") {
             $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_$($env:PLATFORM_INPUT).zip"
             7z a $ZipFileName ".\bin$($env:PLATFORM_INPUT)\NppFavorites.dll"
           }
