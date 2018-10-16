@@ -5,7 +5,6 @@ image: Visual Studio 2017
 environment:
   matrix:
     - PlatformToolset: v140_xp
-    - PlatformToolset: v141_xp 
 
 platform:
     - x64
@@ -38,10 +37,10 @@ after_build:
         if ($env:CONFIGURATION -eq "Release") {
           Push-AppveyorArtifact "bin$($env:PLATFORM_INPUT)\NppFavorites.dll" -FileName NppFavorites.dll          
 
-          
-            $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_$($env:PLATFORM_INPUTTOOLSET)_$($env:APPVEYOR_REPO_TAG)_$($env:PLATFORM_INPUT).zip"
+          if ($env:APPVEYOR_REPO_TAG -eq "true") {
+            $ZipFileName = "NppFavorites_$($env:APPVEYOR_REPO_TAG_NAME)_$($env:PLATFORM_INPUT).zip"
             7z a $ZipFileName ".\bin$($env:PLATFORM_INPUT)\NppFavorites.dll"
-          
+          }
         }
 
 artifacts:
